@@ -13,15 +13,23 @@
                     <div class="logo">MemeGen</div>
                     <ul>
                         <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Memes</a></li>
                         <li><a href="#">About</a></li>
                     </ul>
                 </div>
             </nav>
         </header>
+
         <div class="gallery-container">
-            <h2>Meme Gallery</h2>
-            <div class="images-wrapper"></div>
+            <div class="gallery-content">
+                <div class="gallery-menu">
+                    <input name="search-meme" type="text" placeholder="Search">
+                    <div class="keyword-wrapper"></div>
+                </div>
+                <div class="images-wrapper"></div>
+            </div>
         </div>
+
         <div class="ui" style="display: none">
             <div class="canvas-container">
                 <canvas id="meme-canvas" height="500" width="500" onmousedown="onCanvasClicked(event)"></canvas>
@@ -29,19 +37,34 @@
             <div class="menu">
                 <input type="text" name="line-text" onkeyup="onUpdateTxt(this.value)">
                 <div class="main-ctrl">
-                    <button class="main-ctrl-btn add-line-btn"><img src="icons/+.png" alt=""></button>
-                    <button class="main-ctrl-btn delete-line-btn"><img src="icons/trash.png" alt=""></button>
-                    <button class="main-ctrl-btn switch-line-btn"><img src="icons/dnarrow.png" alt=""><img src="icons/uparrow.png" alt=""></button>
+                    <button class="main-ctrl-btn add-line-btn" onclick="onAddLine()"><img src="icons/+.png" alt=""></button>
+                    <button class="main-ctrl-btn delete-line-btn" onclick="onDeleteItem()"><img src="icons/trash.png" alt=""></button>
+                    <button class="main-ctrl-btn switch-line-btn" onclick="onSwitchLine()"><img src="icons/dnarrow.png" alt=""><img src="icons/uparrow.png" alt=""></button>
+                    <button class="main-ctrl-btn save-meme-btn" onclick="onSaveMeme()"><img src="icons/floppy-disk-save-button-svgrepo-com.svg" alt=""></button>
                 </div>
                 <div class="txt-ctrl">
                     <button class="txt-ctrl-btn" onclick="onTextInc()">A+</button>
                     <button class="txt-ctrl-btn" onclick="onTextDec()">A-</button>
                     <button class="txt-ctrl-btn" onclick="onTextMoveUp()">&#8593;</button>
                     <button class="txt-ctrl-btn" onclick="onTextMoveDown()">&#8595;</button>
-                    <button class="txt-ctrl-btn" onclick="onSwitchLine()">&#8644;</button>
+                </div>
+                <div class="stickers-ctrl">
+                    <img src="stickers/sticker1.png" alt="" onclick="onAddSticker(this.src)">
+                    <img src="stickers/sticker2.png" alt="" onclick="onAddSticker(this.src)">
+                    <img src="stickers/sticker3.png" alt="" onclick="onAddSticker(this.src)">
+                    <img src="stickers/sticker4.png" alt="" onclick="onAddSticker(this.src)">
+                </div>
+                <div class="file-ctrl">
+                    <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type="hidden" />
+                        <button class="file-ctrl-btn share-btn" type="submit"><img src="icons/share.png">Share</button>
+                        <button class="file-ctrl-btn download-btn"><a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg"><img src="icons/download.png">Download</a></button>
+                    </form>
                 </div>
             </div>
         </div>
+        <script src="js/file-service.js"></script>
+        <script src="js/storage-service.js"></script>
         <script src="js/meme-service.js"></script>
         <script src="js/main.js"></script>
     </body>

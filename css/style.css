@@ -7,7 +7,10 @@
 body {
     background-color: #22252c;
 }
-
+a {
+    text-decoration: none;
+    color: #22252c;
+}
 header {
     max-width: 1150px;
     height: 73px;
@@ -52,20 +55,58 @@ nav {
 }
 
 .gallery-container {
+    max-width: 1150px;
+    padding: 20px 0;
+    height: auto;
+    margin: 0 auto;
+    background-color: #383b42;
+    border-radius: 10px;
+
+}
+
+.gallery-content {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
-    width: 980px;
-    height: 70vh;
-    margin: 0 auto;
-    background-color: yellow;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-menu {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 45px;
+}
+
+input[name="search-meme"]{
+    width: 45%;
+    height: 58px;
+    border-radius: 29px;
+    background-color: #22252c;
+    padding: 10px 30px;
+    font-size: 27px;
+    color: white;
+}
+
+.keyword-wrapper {
+    width: 45%;
+    height: 58px;
+    box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
+    border-radius: 25px;
+    background-color: #fefefe54;
+    padding: 10px 30px;
+    display: flex;
     justify-content: space-evenly;
     align-items: center;
+    color: #fff;
 }
 
 .images-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, minmax(200px, 200px));
-    grid-template-rows: repeat(2, 200px);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
+    grid-template-rows: repeat(auto-fill, 200px);
     grid-gap: 20px;
     justify-content: center;
     align-content: center;
@@ -74,6 +115,7 @@ nav {
 .gallery-container img {
     width: 200px;
     cursor: pointer;
+    border-radius: 16px;
 }
 
 .canvas-container {
@@ -108,27 +150,27 @@ canvas {
 }
 
 input[name="line-text"] {
-    padding: 10px;
-    font-size: 22px;
-    border-width: 2px;
-    border-color: #cccccc;
-    background-color: #ffffff;
-    color: #000000;
-    border-style: solid;
-    border-radius: 9px;
+    padding: 10px 30px;
+    font-size: 27px;
+    width: 85%;
+    height: 57px;
+    box-shadow: 1px 5px 0 #bbc4d1, inset 0 5px 0 #ffffff;
+    border-radius: 28px;
+    background-color: #ebeef3;
 }
 
 .txt-ctrl {
+    padding: 20px;
     display: flex;
-    justify-content: center;
-    width: 100%;
+    justify-content: space-around;
+    width: 85%;
     height: 151px;
     border-radius: 15px;
     background-color: #19a59f;
 }
 
 .main-ctrl {
-    width: 100%;
+    width: 85%;
     display: flex;
     justify-content: space-evenly;
 }
@@ -137,7 +179,8 @@ input[name="line-text"] {
     font-size: 20px;
     width: 56px;
     height: 51px;
-    box-shadow: 1px 5px 0 rgba(92, 92, 92, 0.55), inset 0 5px 0 rgba(255, 255, 255, 0.58);
+    box-shadow: 1px 5px 0 rgba(92, 92, 92, 0.55),
+        inset 0 5px 0 rgba(255, 255, 255, 0.58);
     border-radius: 10px;
     background-color: #ffffff;
     background-color: #ffffff;
@@ -157,23 +200,94 @@ input[name="line-text"] {
 
 .delete-line-btn {
     background-color: #ebeef3;
-    background-image: linear-gradient(-38deg, #cf1d37 0%, #cf1d37 1%, #f05036 100%);    
+    background-image: linear-gradient(
+        -38deg,
+        #cf1d37 0%,
+        #cf1d37 1%,
+        #f05036 100%
+    );
 }
 
 .switch-line-btn {
     background-color: #ebeef3;
-    background-image: linear-gradient(-38deg, #66c4dc 0%, #40b1ce 50%, #0c98bb 100%);
+    background-image: linear-gradient(
+        -38deg,
+        #66c4dc 0%,
+        #40b1ce 50%,
+        #0c98bb 100%
+    );
 }
 
-button:focus{
+.save-meme-btn {
+    background-color: #ebeef3;
+    background-image: linear-gradient(
+        -38deg,
+        #dcd866 0%,
+        #abab1f 50%,
+        #8d8f16 100%
+    );
+}
+
+.save-meme-btn img {
+    width:40px;
+}
+
+.stickers-ctrl {
+    min-width: 350px;
+    width: 85%;
+    height: 91px;
+    border-radius: 45px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button:focus, input:focus {
     outline: none;
 }
+.file-ctrl {
+    width: 85%;
+}
+.file-ctrl form{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 
-@media (max-width: 876px) {
+.file-ctrl-btn {
+    width: 45%;
+    height: 51px;
+    border-radius: 15px;
+    font-size: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.file-ctrl-btn img{
+    margin-right: 10px;
+}
+.share-btn {
+    box-shadow: 1px 6px 0 #165c9c, inset 0 5px 0 #ffffff;
+    background-color: #1e7cd3;
+}
+
+.download-btn {
+    box-shadow: 1px 6px 0 #632687, inset 0 5px 0 #ffffff;
+    background-color: #8f44bb;
+}
+.download-btn a {
+    color: white;
+}
+
+@media (max-width: 930px) {
     .ui {
         flex-direction: column;
         height: 850px;
     }
+
 }
 @media (max-width: 552px) {
     .menu {
@@ -181,4 +295,3 @@ button:focus{
         width: 360px;
     }
 }
-
