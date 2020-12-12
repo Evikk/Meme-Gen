@@ -6,15 +6,14 @@
         <link rel="stylesheet" href="css/style.css" />
         <title>MemeGen</title>
     </head>
-    <body onload="init()">
+    <body onload="renderGallery()">
         <header>
             <nav>
                 <div class="nav-content">
                     <div class="logo">MemeGen</div>
                     <ul>
-                        <li><a href="#">Gallery</a></li>
-                        <li><a href="#">Memes</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><a href="index.html">Gallery</a></li>
+                        <li><a href="#" onclick="onSavedMemesClick()">Memes</a></li>
                     </ul>
                 </div>
             </nav>
@@ -23,11 +22,21 @@
         <div class="gallery-container">
             <div class="gallery-content">
                 <div class="gallery-menu">
-                    <input name="search-meme" type="text" placeholder="Search">
+                    <div class="search">
+                        <input name="search-meme" type="text" placeholder="Search" onkeyup="onSearchType(this.value)">
+                        <img src="icons/search.png" alt="">
+                    </div>
                     <div class="keyword-wrapper"></div>
+                </div>
+                <div class="show-memes-container">
+                    <button class="show-memes" onclick="onShowAllMemes()">Show All</button>
                 </div>
                 <div class="images-wrapper"></div>
             </div>
+        </div>
+
+        <div class="saved-memes-container" style="display: none">
+            <div class="saved-memes-content"></div>
         </div>
 
         <div class="ui" style="display: none">
@@ -39,8 +48,8 @@
                 <div class="main-ctrl">
                     <button class="main-ctrl-btn add-line-btn" onclick="onAddLine()"><img src="icons/+.png" alt=""></button>
                     <button class="main-ctrl-btn delete-line-btn" onclick="onDeleteItem()"><img src="icons/trash.png" alt=""></button>
-                    <button class="main-ctrl-btn switch-line-btn" onclick="onSwitchLine()"><img src="icons/dnarrow.png" alt=""><img src="icons/uparrow.png" alt=""></button>
-                    <button class="main-ctrl-btn save-meme-btn" onclick="onSaveMeme()"><img src="icons/floppy-disk-save-button-svgrepo-com.svg" alt=""></button>
+                    <button class="main-ctrl-btn switch-line-btn" onclick="onToggleLine()"><img src="icons/dnarrow.png" alt=""><img src="icons/uparrow.png" alt=""></button>
+                    <button class="main-ctrl-btn save-meme-btn" onclick="onSaveMeme()"><img src="icons/floppy-disk-save-button-svgrepo-com.svg" alt=""><span class="save-tooltip">Your Meme is Saved!</span></button>
                 </div>
                 <div class="txt-ctrl">
                     <button class="txt-ctrl-btn" onclick="onTextInc()">A+</button>
@@ -54,18 +63,28 @@
                     <img src="stickers/sticker3.png" alt="" onclick="onAddSticker(this.src)">
                     <img src="stickers/sticker4.png" alt="" onclick="onAddSticker(this.src)">
                 </div>
+                <label for="img-input" class="img-input-btn">
+                    <img src="icons/upload.svg" width="50">
+                    <span>Upload image</span>
+                </label>
+                <input type="file" id="img-input" style="display: none;" onchange="onImgInput(event)" />
                 <div class="file-ctrl">
                     <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
                         <input name="img" id="imgData" type="hidden" />
                         <button class="file-ctrl-btn share-btn" type="submit"><img src="icons/share.png">Share</button>
-                        <button class="file-ctrl-btn download-btn"><a href="#" class="btn" onclick="downloadImg(this)" download="my-img.jpg"><img src="icons/download.png">Download</a></button>
+                        <button class="file-ctrl-btn download-btn"><a href="#" onclick="downloadImg(this)" download="my-img.jpg"><img src="icons/download.png">Download</a></button>
                     </form>
                 </div>
             </div>
         </div>
+
+        <script src="js/hammer.min.js"></script>
+        <script src="js/touch-handler.js"></script>
         <script src="js/file-service.js"></script>
         <script src="js/storage-service.js"></script>
+        <script src="js/canvas-controller.js"></script>
+        <script src="js/memes-controller.js"></script>
         <script src="js/meme-service.js"></script>
-        <script src="js/main.js"></script>
+        <script src="js/gallery-controller.js"></script>
     </body>
 </html>

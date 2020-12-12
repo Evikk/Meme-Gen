@@ -4,25 +4,19 @@ var gIsDragging = false;
 
 if(document.body.clientWidth < 552) {
     resizeCanvas()
-}
+}  
 
 function resizeCanvas() {
     document.querySelector('.canvas-container').style.width = '370px'
-    var contWidth = document.querySelector('.canvas-container').offsetWidth;
-    console.log(contWidth)
     gCanvas.width = '360'
     gCanvas.height = '360'
-    renderImg()
-}
-
-function init() {
-    renderGallery();
 }
 
 function renderImg() {
-    var imgIdx = getImgById(gMeme.selectedImgId);
     var img = new Image();
-    img.src = gImgs[imgIdx].url;
+    var imgIdx = getImgById(gMeme.selectedImgId);
+    if (gImgFromUser === null) img.src = gImgs[imgIdx].url
+    else img.src = gImgFromUser
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
         gMeme.lines.forEach((line, idx) => {
@@ -68,51 +62,20 @@ function renderText(align, color, fontSize, text, x, y, idx) {
     gMeme.lines[idx].lineHeight = gCtx.measureText(text).actualBoundingBoxAscent
 }
 
-function clearCanvas() {
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
-}
-
-function renderGallery() {
-    var strHtmls = gImgs.map(img => {
-        return `<img src='${img.url}' onclick="onChooseMeme('${img.id}')">`;
-    });
-    document.querySelector('.images-wrapper').innerHTML = strHtmls.join('');
-    strHtmls = ''
-    for (var key in gKeywords) {
-        strHtmls += `<span onclick="onKeywordClick('${key}')"style="font-size:${gKeywords[key]*2}px">${key}</span>`
-    }    
-    document.querySelector('.keyword-wrapper').innerHTML = strHtmls
-}
-
-function onKeywordClick(keyword){
-    var filteredImgs = gImgs.filter(img => {
-        return img.keywords.indexOf(keyword) > -1
-    })
-    var strHtmls = filteredImgs.map(img => {
-        return `<img src='${img.url}' onclick="onChooseMeme('${img.id}')">`;
-    });
-    document.querySelector('.images-wrapper').innerHTML = strHtmls.join('');
-}
-
-function onChooseMeme(imgId) {
-    document.querySelector(".gallery-container").style.display = "none";
-    document.querySelector(".ui").style.display = "flex";
-    gMeme.selectedImgId = Number(imgId);
-    renderImg();
-}
-
 function onCanvasClicked(ev) {
     var { offsetX, offsetY } = ev;
+    // console.log(offsetX, offsetY);
+    
     
     var clickedLineIdx = gMeme.lines.findIndex(line => {
-        return offsetX >= line.pos.x - (line.lineWidth / 2) && offsetX <= line.pos.x + (line.lineWidth / 2)
-            && offsetY >= line.pos.y - line.lineHeight && offsetY < line.pos.y
+        return offsetX >= line.pos.x - (line.lineWidth / 2) - 10 && offsetX <= line.pos.x + (line.lineWidth / 2) + 10
+            && offsetY >= line.pos.y - line.lineHeight - 10 && offsetY < line.pos.y + 10
     })
     var clickedStickerIdx = gMeme.stickers.findIndex(sticker => {
         return offsetX >= sticker.pos.x && offsetX <= sticker.pos.x + sticker.size
             && offsetY >= sticker.pos.y && offsetY < sticker.pos.y + sticker.size
     })
-    
+
     if (clickedLineIdx !== -1) {
         gMeme.selectedLineIdx = clickedLineIdx;
         renderTextInput()
@@ -138,6 +101,7 @@ function onCanvasClicked(ev) {
         gIsDragging = false
         gMeme.selectedLineIdx = null;
         gMeme.selectedStickerIdx = null;
+        renderTextInput()
         renderImg()
     }
     
@@ -181,45 +145,28 @@ function dragItem(ev){
     renderImg()
 }
 
-
-function onSwitchLine(){
-    if (gMeme.lines.length === 1 || gMeme.lines.length === 0) return
-    if (gMeme.selectedLineIdx === gMeme.lines.length - 1) gMeme.selectedLineIdx = 0
-    else gMeme.selectedLineIdx ++
+function onToggleLine(){
+    toggleLine()
     renderImg()
 }
 
 function onTextInc() {
-    if (gMeme.selectedLineIdx !== null){
-        var line = gMeme.lines[gMeme.selectedLineIdx];
-        line.fontSize += 3;
-    } else if (gMeme.selectedStickerIdx !== null){
-        var sticker = gMeme.stickers[gMeme.selectedStickerIdx]
-        sticker.size += 3
-    }
+    textInc()
     renderImg();
 }
 
 function onTextDec() {
-    if (gMeme.selectedLineIdx !== null){
-        var line = gMeme.lines[gMeme.selectedLineIdx];
-        line.fontSize -= 3;
-    } else if (gMeme.selectedStickerIdx !== null){
-        var sticker = gMeme.stickers[gMeme.selectedStickerIdx]
-        sticker.size -= 3
-    }
+    textDec()
     renderImg();
 }
 
 function onTextMoveUp() {
-    var line = gMeme.lines[gMeme.selectedLineIdx];
-    line.pos.y -= 5
+    textMoveUp()
     renderImg()
 }
 
 function onTextMoveDown() {
-    var line = gMeme.lines[gMeme.selectedLineIdx];
-    line.pos.y += 5
+    textMoveDown()
     renderImg()
 }
 
@@ -234,18 +181,9 @@ function onUpdateTxt(txt){
 }
 
 function onDeleteItem() {
-    if (gMeme.selectedLineIdx !== null) {
-        gMeme.lines[gMeme.selectedLineIdx].txt = ''
-        renderTextInput()
-        gMeme.lines.splice(gMeme.selectedLineIdx, 1)
-        gMeme.selectedLineIdx = null
-        renderImg()
-    }
-    else if (gMeme.selectedStickerIdx !== null){
-        gMeme.stickers.splice(gMeme.selectedStickerIdx, 1)
-        gMeme.selectedStickerIdx = null
-        renderImg()
-    }
+    deleteItem()
+    renderTextInput()
+    renderImg()
 }
 
 function onAddLine() {
@@ -260,4 +198,12 @@ function onAddSticker(src) {
 
 function onSaveMeme() {
     saveMeme()
+    document.querySelector('.save-tooltip').style.visibility = 'visible'
+    setTimeout(function(){
+        document.querySelector('.save-tooltip').style.visibility = 'hidden'
+    }, 2000)
+}
+
+function onImgInput(ev) {
+    loadImageFromInput(ev, renderImg)
 }

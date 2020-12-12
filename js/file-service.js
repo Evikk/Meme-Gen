@@ -1,8 +1,24 @@
 function downloadImg(elLink) {
+    console.log(elLink);
     var imgContent = gCanvas.toDataURL('image/jpeg');
     elLink.href = imgContent
 }
 
+// function downloadImgFromSaved(src) {
+//     var imgContent = gCanvas.toDataURL('image/jpeg');
+//     elLink.href = imgContent
+// }
+
+function loadImageFromInput(ev, onImageReady) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+        var img = new Image();
+        img.onload = onImageReady.bind(null, img)
+        img.src = event.target.result;
+        gImgFromUser = img.src
+    }
+    reader.readAsDataURL(ev.target.files[0]);
+}
 
 function uploadImg(elForm, ev) {
     ev.preventDefault();
