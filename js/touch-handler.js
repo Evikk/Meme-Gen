@@ -25,7 +25,7 @@ canvasTouchHandler.on('pan' , function (ev) {
         gMeme.stickers[gMeme.selectedStickerIdx].pos.x = ev.changedPointers[0].offsetX - gMeme.stickers[gMeme.selectedStickerIdx].size / 2;
         gMeme.stickers[gMeme.selectedStickerIdx].pos.y = ev.changedPointers[0].offsetY - gMeme.stickers[gMeme.selectedStickerIdx].size / 2;
     }
-    renderImg()
+    renderCanvas()
 });
 
 canvasTouchHandler.on('panend', function (e) {

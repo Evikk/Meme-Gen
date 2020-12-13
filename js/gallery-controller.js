@@ -14,17 +14,19 @@ function onKeywordClick(keyword){
     var filteredImgs = gImgs.filter(img => {
         return img.keywords.indexOf(keyword) > -1
     })
-    var strHtmls = filteredImgs.map(img => {
-        return `<img src='${img.url}' onclick="onChooseMeme('${img.id}')">`;
-    });
-    document.querySelector('.images-wrapper').innerHTML = strHtmls.join('');
+    document.querySelector('[name="search-meme"]').value = keyword
+    showFilteredMemes(filteredImgs)
 }
 
 function onSearchType(str){
     var filteredImgs = gImgs.filter(img => {
         return img.keywords.find(word => word.includes(str.toLowerCase()))
     })
-    var strHtmls = filteredImgs.map(img => {
+    showFilteredMemes(filteredImgs)
+}
+
+function showFilteredMemes(memes) {
+    var strHtmls = memes.map(img => {
         return `<img src='${img.url}' onclick="onChooseMeme('${img.id}')">`;
     });
     document.querySelector('.images-wrapper').innerHTML = strHtmls.join('');
@@ -39,5 +41,10 @@ function onChooseMeme(imgId) {
     document.querySelector(".gallery-container").style.display = "none";
     document.querySelector(".ui").style.display = "flex";
     gMeme.selectedImgId = Number(imgId);  
-    renderImg();
+    renderCanvas();
+}
+
+function onUploadImgFromUser() {
+    document.querySelector(".gallery-container").style.display = "none";
+    document.querySelector(".ui").style.display = "flex";
 }

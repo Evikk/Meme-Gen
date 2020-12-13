@@ -4,11 +4,6 @@ function downloadImg(elLink) {
     elLink.href = imgContent
 }
 
-// function downloadImgFromSaved(src) {
-//     var imgContent = gCanvas.toDataURL('image/jpeg');
-//     elLink.href = imgContent
-// }
-
 function loadImageFromInput(ev, onImageReady) {
     var reader = new FileReader();
     reader.onload = function (event) {

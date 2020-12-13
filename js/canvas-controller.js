@@ -12,7 +12,7 @@ function resizeCanvas() {
     gCanvas.height = '360'
 }
 
-function renderImg() {
+function renderCanvas() {
     var img = new Image();
     var imgIdx = getImgById(gMeme.selectedImgId);
     if (gImgFromUser === null) img.src = gImgs[imgIdx].url
@@ -34,7 +34,7 @@ function renderImg() {
             }
         });
         gMeme.stickers.forEach((sticker, idx) => {
-            renderSticker(idx, sticker.size, sticker.pos.x, sticker.pos.y)
+            gCtx.drawImage(sticker.img, sticker.pos.x, sticker.pos.y, sticker.size, sticker.size);
             if (idx === gMeme.selectedStickerIdx) {
                 renderRect()
             }
@@ -42,13 +42,13 @@ function renderImg() {
     };
 }
 
-function renderSticker(idx, size, x, y) {
-    var sticker = new Image();
-    sticker.src = gMeme.stickers[idx].url;
-    sticker.onload = () => {
-        gCtx.drawImage(sticker, x, y, size, size);
-    }
-}
+// function renderSticker(elSticker, size, x, y) {
+//     var sticker = elSticker
+//     sticker.src = elSticker.src
+//     sticker.onload = () => {
+//         gCtx.drawImage(sticker, x, y, size, size);
+//     }
+// }
 
 function renderText(align, color, fontSize, text, x, y, idx) {
     gCtx.textAlign = align;
@@ -63,9 +63,8 @@ function renderText(align, color, fontSize, text, x, y, idx) {
 }
 
 function onCanvasClicked(ev) {
+    document.querySelector('[name="line-text"]').readOnly = true
     var { offsetX, offsetY } = ev;
-    // console.log(offsetX, offsetY);
-    
     
     var clickedLineIdx = gMeme.lines.findIndex(line => {
         return offsetX >= line.pos.x - (line.lineWidth / 2) - 10 && offsetX <= line.pos.x + (line.lineWidth / 2) + 10
@@ -78,8 +77,9 @@ function onCanvasClicked(ev) {
 
     if (clickedLineIdx !== -1) {
         gMeme.selectedLineIdx = clickedLineIdx;
+        document.querySelector('[name="line-text"]').readOnly = false
         renderTextInput()
-        renderImg()
+        renderCanvas()
         gIsDragging = true
         gCanvas.addEventListener('mousemove', (ev) => {
             dragItem(ev)
@@ -90,7 +90,7 @@ function onCanvasClicked(ev) {
         gMeme.selectedLineIdx = null;
         gMeme.selectedStickerIdx = clickedStickerIdx
         renderTextInput()
-        renderImg()
+        renderCanvas()
         gIsDragging = true
         gCanvas.addEventListener('mousemove', (ev) => {
             dragItem(ev)
@@ -102,7 +102,7 @@ function onCanvasClicked(ev) {
         gMeme.selectedLineIdx = null;
         gMeme.selectedStickerIdx = null;
         renderTextInput()
-        renderImg()
+        renderCanvas()
     }
     
 }
@@ -142,32 +142,32 @@ function dragItem(ev){
         sticker.pos.x = offsetX - sticker.size / 2
         sticker.pos.y = offsetY - sticker.size / 2
     }
-    renderImg()
+    renderCanvas()
 }
 
 function onToggleLine(){
     toggleLine()
-    renderImg()
+    renderCanvas()
 }
 
 function onTextInc() {
     textInc()
-    renderImg();
+    renderCanvas();
 }
 
 function onTextDec() {
     textDec()
-    renderImg();
+    renderCanvas();
 }
 
 function onTextMoveUp() {
     textMoveUp()
-    renderImg()
+    renderCanvas()
 }
 
 function onTextMoveDown() {
     textMoveDown()
-    renderImg()
+    renderCanvas()
 }
 
 function renderTextInput() {
@@ -176,24 +176,23 @@ function renderTextInput() {
 }
 
 function onUpdateTxt(txt){
-    gMeme.lines[gMeme.selectedLineIdx].txt = txt
-    renderImg()
+        updateTxt(txt)
+        renderCanvas()
 }
 
 function onDeleteItem() {
     deleteItem()
     renderTextInput()
-    renderImg()
+    renderCanvas()
 }
 
 function onAddLine() {
     addLine()
-    renderImg()
+    renderCanvas()
 }
 
-function onAddSticker(src) {
-    addSticker(src)
-    renderImg()
+function onAddSticker(elSticker) {
+    addSticker(elSticker)
 }
 
 function onSaveMeme() {
@@ -205,5 +204,5 @@ function onSaveMeme() {
 }
 
 function onImgInput(ev) {
-    loadImageFromInput(ev, renderImg)
+    loadImageFromInput(ev, renderCanvas)
 }

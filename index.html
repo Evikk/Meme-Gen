@@ -21,6 +21,10 @@
 
         <div class="gallery-container">
             <div class="gallery-content">
+                <div class="heading">
+                    <h2>Choose an image below to start editing your meme</h2>
+                    <a onclick="onUploadImgFromUser()"><label for="img-input" style="cursor: pointer;"><h5>or upload your own image here...</h5></label></a>
+                </div>
                 <div class="gallery-menu">
                     <div class="search">
                         <input name="search-meme" type="text" placeholder="Search" onkeyup="onSearchType(this.value)">
@@ -30,6 +34,7 @@
                 </div>
                 <div class="show-memes-container">
                     <button class="show-memes" onclick="onShowAllMemes()">Show All</button>
+                    
                 </div>
                 <div class="images-wrapper"></div>
             </div>
@@ -44,7 +49,7 @@
                 <canvas id="meme-canvas" height="500" width="500" onmousedown="onCanvasClicked(event)"></canvas>
             </div>
             <div class="menu">
-                <input type="text" name="line-text" onkeyup="onUpdateTxt(this.value)">
+                <input type="text" name="line-text" placeholder="Choose line to edit" onkeyup="onUpdateTxt(this.value)" readonly>
                 <div class="main-ctrl">
                     <button class="main-ctrl-btn add-line-btn" onclick="onAddLine()"><img src="icons/+.png" alt=""></button>
                     <button class="main-ctrl-btn delete-line-btn" onclick="onDeleteItem()"><img src="icons/trash.png" alt=""></button>
@@ -58,10 +63,10 @@
                     <button class="txt-ctrl-btn" onclick="onTextMoveDown()">&#8595;</button>
                 </div>
                 <div class="stickers-ctrl">
-                    <img src="stickers/sticker1.png" alt="" onclick="onAddSticker(this.src)">
-                    <img src="stickers/sticker2.png" alt="" onclick="onAddSticker(this.src)">
-                    <img src="stickers/sticker3.png" alt="" onclick="onAddSticker(this.src)">
-                    <img src="stickers/sticker4.png" alt="" onclick="onAddSticker(this.src)">
+                    <img src="stickers/sticker1.png" alt="" onclick="onAddSticker(this)">
+                    <img src="stickers/sticker2.png" alt="" onclick="onAddSticker(this)">
+                    <img src="stickers/sticker3.png" alt="" onclick="onAddSticker(this)">
+                    <img src="stickers/sticker4.png" alt="" onclick="onAddSticker(this)">
                 </div>
                 <label for="img-input" class="img-input-btn">
                     <img src="icons/upload.svg" width="50">
