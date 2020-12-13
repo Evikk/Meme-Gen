@@ -1,7 +1,12 @@
 function downloadImg(elLink) {
-    console.log(elLink);
-    var imgContent = gCanvas.toDataURL('image/jpeg');
-    elLink.href = imgContent
+    gMeme.selectedLineIdx = null;
+    gMeme.selectedStickerIdx = null;
+    renderCanvas();
+    setTimeout(() => {
+        var imgContent = gCanvas.toDataURL('image/jpeg');
+        elLink.href = imgContent
+    }, 1000);
+    
 }
 
 function loadImageFromInput(ev, onImageReady) {

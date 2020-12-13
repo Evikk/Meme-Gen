@@ -42,14 +42,6 @@ function renderCanvas() {
     };
 }
 
-// function renderSticker(elSticker, size, x, y) {
-//     var sticker = elSticker
-//     sticker.src = elSticker.src
-//     sticker.onload = () => {
-//         gCtx.drawImage(sticker, x, y, size, size);
-//     }
-// }
-
 function renderText(align, color, fontSize, text, x, y, idx) {
     gCtx.textAlign = align;
     gCtx.fillStyle = color;
